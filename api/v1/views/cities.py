@@ -16,8 +16,8 @@ def get_city_by_state(state_id):
     '''
     state = storage.get("State", state_id)
     if state is None:
-        abort(404)
-    city_list = [c.to_dict() for c in state.cities]
+        abort(404, 'Not a page') 
+    city_list = [city.to_dict() for city in state.cities]
     return jsonify(city_list), 200
 
 
@@ -28,7 +28,7 @@ def get_city_id(city_id):
     '''
     city = storage.get("City", city_id)
     if city is None:
-        abort(404)
+        abort(404, "Not a page")
     return jsonify(city.to_dict()), 200
 
 
@@ -39,7 +39,7 @@ def delete_city(city_id):
     '''
     city = storage.get("City", city_id)
     if city is None:
-        abort(404)
+        abort(404, 'Not a page')
     city.delete()
     storage.save()
     return jsonify({}), 200
@@ -56,12 +56,12 @@ def create_city(state_id):
     elif "name" not in request.get_json():
         return jsonify({"error": "Missing name"}), 400
     else:
-        obj_data = request.get_json()
+        data = request.get_json()
         state = storage.get("State", state_id)
         if state is None:
-            abort(404)
-        obj_data['state_id'] = state.id
-        obj = City(**obj_data)
+            abort(404, 'Not a page')
+        data['state_id'] = state.id
+        obj = City(**data)
         obj.save()
         return jsonify(obj.to_dict()), 201
 
@@ -77,7 +77,7 @@ def update_city(city_id):
     obj = storage.get("City", city_id)
     if obj is None:
         abort(404)
-    obj_data = request.get_json()
-    obj.name = obj_data['name']
+    data = request.get_json()
+    obj.name = data['name']
     obj.save()
     return jsonify(obj.to_dict()), 200
