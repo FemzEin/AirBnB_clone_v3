@@ -32,9 +32,8 @@ def page_not_found(error):
     return jsonify({"error": "Not found"}), 404
 
 if __name__ == '__main__':
-    HBNB_HOST = os.getenv("HBNB_API_HOST", "0.0.0.0")
-    try:
-        HBNB_PORT = int(os.getenv("HBNB_API_PORT"))
-    except:
-        HBNB_PORT = 5000
-    app.run(host=HBNB_HOST, port=HBNB_PORT)
+    # set host and port using environ variables if not defined
+    host = os.environ.get('HBNB_API_HOST', '0.0.0.0')
+    port = int(os.environ.get('HBNB_API_PORT', 5000))
+    # Run the flask server
+    app.run(host=host, port=port, threaded=True)
