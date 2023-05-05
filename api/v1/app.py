@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Start Flask app, setup Blueprint
-"""
+""" Start Flask app, setup Blueprint """
 
 from flask import Flask, Blueprint, jsonify
 from flask_cors import CORS
